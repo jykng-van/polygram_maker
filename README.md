@@ -1,50 +1,12 @@
-# React + TypeScript + Vite
+# Polygram Maker
+Makes a polygram with a number of sides and steps.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The polygrams made by this is, will output as SVG code. Sides are the number of points around a cricle (which is not drawn). While Steps are how many points it's skips over when drawing the polygram.
 
-Currently, two official plugins are available:
+The commonly recognized Pentagram (which is just the star shape, because the star and circle are really what's called a Pentacle) has 5 sides and 2 steps. When drawing the lines of the polygram shape it will go around to each point around the circle till it reaches the starting point.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Some combinations of sides and steps, such as the Hexagram with 6 sides and 2 steps will not go to each point with after returning to the starting point, so it will start another path with the next point as the starting point.
 
-## Expanding the ESLint configuration
+The polygram maker can accept any integer as the number of steps. But 0 steps will make a bunch of dots in a circular formation. 1 step will simply make a polygon shape. A number of steps that's half of an even number of sides will make some interseting lines.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Any integer could be the number of steps, as it calculates next step by **(Current Point + Steps) % Sides** to determine the next point to draw to. And there's many cases different numbers of steps produce the same results, such as 2 and 3 steps for a 5 sided polygram.
