@@ -9,15 +9,15 @@ type PointIndex = {
 };
 
 export default class Polygram{
-    sides:number;
+    vertices:number;
     steps:number;
     radius:number;
     margin:number; //offset from edge of svg because of pointy corners
     #points:Point[] = [];
 
 
-    constructor(sides:number, steps:number, size:number, margin:number = 5){
-        this.sides = sides;
+    constructor(vertices:number, steps:number, size:number, margin:number = 5){
+        this.vertices = vertices;
         this.steps = steps;
         this.radius = size / 2; //radius is important, it's the centre and calculated from size
         this.margin = margin;
@@ -25,9 +25,9 @@ export default class Polygram{
     }
     setPoints(){
         //calculate the coordinates of each point on the circle
-        for(let p=0; p<this.sides; p++){
+        for(let p=0; p<this.vertices; p++){
             //angles are in radians
-            const angle = (Math.PI * 2) / this.sides * p;
+            const angle = (Math.PI * 2) / this.vertices * p;
             //we want to start from the top of the circle, normally cos and sin are reversed but that starts from the right of the circle
             const y = this.radius * Math.cos(angle);
             const x = this.radius * Math.sin(angle);
@@ -54,14 +54,14 @@ export default class Polygram{
             console.log(`startVertex: ${startVertex}`);
             let path = `M ${startPoint.x + this.radius + this.margin} ${this.radius - startPoint.y + this.margin}`; //move to starting point
             delete undrawnPoints[startVertex]; //remove because starting point has been drawn
-            let currentVertex = (startVertex + this.steps) % this.sides; //determine the next vertex to draw, could be greater than sides so we carry over
+            let currentVertex = (startVertex + this.steps) % this.vertices; //determine the next vertex to draw, could be greater than vertices so we carry over
             while(currentVertex != startVertex){ //keep drawing until the starting point is reached
                 console.log(currentVertex);
                 const currentPoint = this.#points[currentVertex];
                 path += ` L ${currentPoint.x + this.radius + this.margin} ${this.radius - currentPoint.y + this.margin}`; //draw a line to the next point
                 delete undrawnPoints[currentVertex]; //remove because point has been drawn
 
-                currentVertex = (currentVertex + this.steps) % this.sides; //determine the next vertex to draw, could be greater than sides so we carry over
+                currentVertex = (currentVertex + this.steps) % this.vertices; //determine the next vertex to draw, could be greater than vertices so we carry over
             }
             path += ` Z`; //close the path
             console.log(path);

@@ -2,20 +2,20 @@ import { useState, useEffect } from "react";
 import Polygram from "./Polygram";
 
 interface PolygramProps{
-    sides:number;
+    vertices:number;
     steps:number;
     size:number;
     margin?:number;
 }
-export default function PolygramImage({sides, steps, size, margin=5}:PolygramProps){
+export default function PolygramImage({vertices, steps, size, margin=5}:PolygramProps){
     const svg_size = size + 2*margin;
     const [paths, setPaths] = useState<string[]>([]);
 
     useEffect(()=>{
-        const polygram = new Polygram(sides, steps, size);
+        const polygram = new Polygram(vertices, steps, size);
         const dpaths = polygram.getPaths();
         setPaths(dpaths);
-    },[sides, steps, size]);
+    },[vertices, steps, size]);
 
 
     return (
